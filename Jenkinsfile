@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/SKW5/OTP-1-i'
+                git 'https://github.com/SKW5/OTP-2-i'
             }
         }
         stage('Build') {
