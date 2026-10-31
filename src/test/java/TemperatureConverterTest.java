@@ -10,6 +10,7 @@ class TemperatureConverterTest {
         assertEquals(32.0, TemperatureConverter.celsiusToFahrenheit(0), 1e-9);
         assertEquals(212.0, TemperatureConverter.celsiusToFahrenheit(100), 1e-9);
         assertEquals(-40.0, TemperatureConverter.celsiusToFahrenheit(-40), 1e-9);
+        assertEquals(68.0, TemperatureConverter.celsiusToFahrenheit(20), 1e-9);
     }
 
     @Test
@@ -17,6 +18,7 @@ class TemperatureConverterTest {
         assertEquals(0.0, TemperatureConverter.fahrenheitToCelsius(32), 1e-9);
         assertEquals(100.0, TemperatureConverter.fahrenheitToCelsius(212), 1e-9);
         assertEquals(-40.0, TemperatureConverter.fahrenheitToCelsius(-40), 1e-9);
+        assertEquals(20.0, TemperatureConverter.fahrenheitToCelsius(68), 1e-9);
     }
 
     @Test
@@ -26,5 +28,7 @@ class TemperatureConverterTest {
         assertFalse(TemperatureConverter.isExtremeTemperature(-30));
         assertFalse(TemperatureConverter.isExtremeTemperature(50));
         assertFalse(TemperatureConverter.isExtremeTemperature(20));
+        assertTrue(TemperatureConverter.isExtremeTemperature(Double.POSITIVE_INFINITY));
+        assertTrue(TemperatureConverter.isExtremeTemperature(Double.NEGATIVE_INFINITY));
     }
 }

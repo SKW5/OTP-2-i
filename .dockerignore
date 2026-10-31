@@ -1,0 +1,10 @@
+.git
+.idea
+target
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+secrets/

@@ -1,49 +1,39 @@
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.InputMismatchException;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        show(stage, supportedLocale(Locale.getDefault()));
+        stage.show();
+    }
 
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("1. English");
-        System.out.println("2. Finnish");
-        System.out.println("3. Japanese");
-        System.out.println("4. Swedish");
-        System.out.print("Choose language: ");
-
-        String choice = scanner.nextLine().trim();
-
-        Locale locale = switch (choice) {
-            case "1" -> Locale.US;
-            case "2" -> Locale.forLanguageTag("fi-FI");
-            case "3" -> Locale.forLanguageTag("ja-JP");
-            case "4" -> Locale.forLanguageTag("sv-SE");
-            default -> {
-                System.out.println("Invalid defaulting to english");
-                yield Locale.US;
-            }
+    static Locale supportedLocale(Locale locale) {
+        return switch (locale.getLanguage()) {
+            case "fi" -> Locale.forLanguageTag("fi-FI");
+            case "ja" -> Locale.JAPAN;
+            case "sv" -> Locale.forLanguageTag("sv-SE");
+            default -> Locale.US;
         };
+    }
 
-        ResourceBundle messages =
-                ResourceBundle.getBundle("messageBundle", locale);
+    void show(Stage stage, Locale locale) throws IOException {
+        ResourceBundle messages = ResourceBundle.getBundle("messageBundle", locale);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/temperature-converter.fxml"), messages);
+        loader.setControllerFactory(type -> new TemperatureConverterController(locale));
+        stage.setTitle(messages.getString("title"));
+        stage.setScene(new Scene(loader.load()));
+        stage.setMinWidth(420);
+        stage.setMinHeight(300);
+    }
 
-        System.out.print(messages.getString("Temp") + " ");
-        double temp;
-        try {
-            temp = scanner.nextDouble();
-        } catch (InputMismatchException exception) {
-            System.out.println(messages.getString("invalidNumber"));
-            return;
-        }
-        System.out.println(messages.getString("inCelcius") + " " + TemperatureConverter.fahrenheitToCelsius(temp));
-        System.out.println(messages.getString("inFahrenheit") + " " + TemperatureConverter.celsiusToFahrenheit(temp));
-        if (TemperatureConverter.isExtremeTemperature(temp)) {
-            System.out.println(messages.getString("extreme"));
-        } else {
-            System.out.println(messages.getString("normal"));
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }
