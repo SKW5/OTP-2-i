@@ -1,0 +1,14 @@
+services:
+  temperature-converter:
+    build: .
+    environment:
+      DISPLAY: ${DISPLAY}
+      XAUTHORITY: /tmp/.docker.xauth
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTH_FILE}:/tmp/.docker.xauth:ro
+      - temperature-data:/app/data
+    group_add:
+      - "${HOST_GID}"
+volumes:
+  temperature-data:

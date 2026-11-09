@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: temperature-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-converter
+  template:
+    metadata:
+      labels:
+        app: temperature-converter
+    spec:
+      containers:
+        - name: app
+          image: skw5/temperature-converter:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DISPLAY
+              value: "host.minikube.internal:0.0"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dtemperature.db.url=jdbc:h2:file:/data/temperature;AUTO_SERVER=TRUE"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: temperature-data

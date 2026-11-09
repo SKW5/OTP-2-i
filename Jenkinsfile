@@ -1,42 +1,11 @@
 pipeline {
     agent any
+    environment { IMAGE = "${DOCKERHUB_USERNAME}/temperature-converter" }
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/SKW5/OTP-2-i'
-            }
+        stage('Build and test') {
+            steps { sh 'mvn -B clean verify' }
+            post { always { junit '**/target/surefire-reports/*.xml'; publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/site/jacoco', reportFiles: 'index.html', reportName: 'JaCoCo']) } }
         }
-        stage('Build') {
-            steps {
-                sh 'mvn clean install' // sh for linux and ios
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Code Coverage') {
-            steps {
-                sh 'mvn jacoco:report'
-            }
-        }
-        stage('Publish Test Results') {
-            steps {
-                junit '**/target/surefire-reports/*.xml'
-            }
-        }
-        stage('Publish Coverage Report') {
-            steps {
-                jacoco()
-            }
-        }
-
-        stage('Docker image') {
-            steps {
-                sh 'docker build -t temperature-converter:${BUILD_NUMBER} .'
-                sh 'docker run --rm --entrypoint java temperature-converter:${BUILD_NUMBER} -version'
-            }
-        }
+        stage('Build image') { steps { sh 'docker build -t "$IMAGE:$BUILD_NUMBER" -t "$IMAGE:latest" .' } }
     }
 }

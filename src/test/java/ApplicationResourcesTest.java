@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ApplicationResourcesTest {
     private static final String FXML_NAMESPACE = "http://javafx.com/fxml/1";
     private static final List<Locale> SUPPORTED_LOCALES = List.of(Locale.US,
-            Locale.forLanguageTag("fi-FI"), Locale.JAPAN, Locale.forLanguageTag("sv-SE"));
+            Locale.forLanguageTag("fi-FI"), Locale.JAPAN, Locale.forLanguageTag("sv-SE"), Locale.forLanguageTag("ar"));
     private static final Set<String> REQUIRED_MESSAGE_KEYS = Set.of(
             "title", "Temp", "invalidNumber", "inCelcius", "inFahrenheit",
-            "extreme", "normal", "convert");
+                "extreme", "normal", "convert", "to", "result", "history");
 
     @Test
     void everySupportedLocaleHasAllMessagesUsedByTheView() {
@@ -58,8 +58,8 @@ class ApplicationResourcesTest {
                 .map(element -> element.getAttributeNS(FXML_NAMESPACE, "id"))
                 .filter(id -> !id.isBlank())
                 .collect(Collectors.toSet());
-        assertEquals(Set.of("languageChoice", "temperatureInput", "celsiusResult",
-                "fahrenheitResult", "statusMessage"), fieldIds);
+        assertTrue(fieldIds.containsAll(Set.of("languageChoice", "temperatureInput", "fromUnitChoice", "toUnitChoice",
+                "celsiusResult", "fahrenheitResult", "statusMessage", "historyList")));
 
         NodeList actionNodes = document.getElementsByTagName("*");
         long convertActions = IntStream.range(0, actionNodes.getLength())

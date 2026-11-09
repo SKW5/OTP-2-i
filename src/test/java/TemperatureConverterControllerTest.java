@@ -74,11 +74,10 @@ class TemperatureConverterControllerTest {
 
     @Test
     void mapsLanguageChoicesToLocalesAndBack() {
-        Locale[] expected = {Locale.US, Locale.forLanguageTag("fi-FI"), Locale.JAPAN,
-                Locale.forLanguageTag("sv-SE")};
+        Locale[] expected = {Locale.US, Locale.forLanguageTag("fi-FI"), Locale.forLanguageTag("sv-SE"), Locale.JAPAN, Locale.forLanguageTag("ar")};
 
-        assertEquals(4, TemperatureConverterController.languageNames().size());
-        assertEquals(java.util.List.of("English", "Suomi", "日本語", "Svenska"),
+        assertEquals(5, TemperatureConverterController.languageNames().size());
+        assertEquals(java.util.List.of("English", "Suomi", "Svenska", "日本語", "العربية"),
                 TemperatureConverterController.languageNames());
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected[i], TemperatureConverterController.localeForLanguageIndex(i));

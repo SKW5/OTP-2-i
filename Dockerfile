@@ -8,6 +8,7 @@ RUN apt-get update \
         libgl1 \
         libxtst6 \
         fontconfig \
+        fonts-noto-core \
         fonts-noto-cjk \
     && fc-cache -f \
     && rm -rf /var/lib/apt/lists/*

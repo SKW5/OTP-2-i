@@ -19,6 +19,7 @@ public class Main extends Application {
             case "fi" -> Locale.forLanguageTag("fi-FI");
             case "ja" -> Locale.JAPAN;
             case "sv" -> Locale.forLanguageTag("sv-SE");
+            case "ar" -> Locale.forLanguageTag("ar");
             default -> Locale.US;
         };
     }
