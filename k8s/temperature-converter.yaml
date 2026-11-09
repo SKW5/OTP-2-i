@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: skw5/temperature-converter:latest
+          image: temperature-converter:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: DISPLAY

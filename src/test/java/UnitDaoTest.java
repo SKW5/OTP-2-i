@@ -10,9 +10,13 @@ class UnitDaoTest {
         List<UnitDao.Unit> fallback = dao.findAll("fr");
         assertEquals("Celsius", fallback.get(0).name());
         assertEquals("Degrees Celsius", fallback.get(0).description());
+        assertEquals("Celsius (°C)", fallback.get(0).toString());
+        assertEquals("Fahrenheit", dao.findAll(null).get(1).name());
         dao.save(32, "FAHRENHEIT", "CELSIUS", 0, "ja");
         dao.save(0, "CELSIUS", "FAHRENHEIT", 32, "ja");
         assertEquals(2, dao.lastFive("ja").size());
         assertTrue(dao.lastFive("ja").get(0).contains("華氏"));
+        for (int i = 0; i < 6; i++) dao.save(i, "CELSIUS", "FAHRENHEIT", i * 1.8 + 32, "en");
+        assertEquals(5, dao.lastFive("en").size(), "History is capped at the five newest conversions");
     }
 }

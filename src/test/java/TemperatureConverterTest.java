@@ -12,6 +12,7 @@ class TemperatureConverterTest {
         assertEquals(212.0, TemperatureConverter.celsiusToFahrenheit(100), 1e-9);
         assertEquals(-40.0, TemperatureConverter.celsiusToFahrenheit(-40), 1e-9);
         assertEquals(68.0, TemperatureConverter.celsiusToFahrenheit(20), 1e-9);
+        assertEquals(-58.0, TemperatureConverter.celsiusToFahrenheit(-50), 1e-9);
     }
 
     @Test void convertsBetweenSelectedUnitsAndAllowsSameUnit() {
@@ -27,6 +28,7 @@ class TemperatureConverterTest {
         assertEquals(100.0, TemperatureConverter.fahrenheitToCelsius(212), 1e-9);
         assertEquals(-40.0, TemperatureConverter.fahrenheitToCelsius(-40), 1e-9);
         assertEquals(20.0, TemperatureConverter.fahrenheitToCelsius(68), 1e-9);
+        assertEquals(-40.0, TemperatureConverter.fahrenheitToCelsius(-40), 1e-9);
     }
 
     @Test
